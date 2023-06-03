@@ -46,7 +46,7 @@ const Form = ({ formId, expenseObj, forNewExpense = true }) => {
       mutate(`/api/expense/${id}`, data, false); // Update the local data without a revalidation
       router.push('/');
     } catch (error) {
-      setMessage('Failed to update pet');
+      setMessage('Failed to update expense');
     }
   };
 
@@ -69,7 +69,7 @@ const Form = ({ formId, expenseObj, forNewExpense = true }) => {
 
       router.push('/');
     } catch (error) {
-      setMessage('Failed to add pet');
+      setMessage('Failed to add expense');
     }
   };
 
@@ -84,7 +84,7 @@ const Form = ({ formId, expenseObj, forNewExpense = true }) => {
     });
   };
 
-  /* Makes sure pet info is filled for pet name, owner name, species, and image url*/
+  /* Makes sure expense info is filled for expense name, owner name, species, and image url*/
   const formValidate = () => {
     let err = {};
     if (!form.expense_type) err.expense_type = 'Expense Category is required';
@@ -206,7 +206,7 @@ const Form = ({ formId, expenseObj, forNewExpense = true }) => {
         date: new Date(data.date).toISOString().slice(0, 16),
       });
     } catch (error) {
-      setMessage('Failed to update pet');
+      setMessage('Failed to update expense');
     }
   };
 

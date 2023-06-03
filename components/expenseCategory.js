@@ -32,7 +32,7 @@ const Form = ({ formId, expenseCategoryObj, forNewExpenseCategory = true }) => {
       }
       router.push('/expense-category');
     } catch (error) {
-      setMessage('Failed to update pet');
+      setMessage('Failed to update expense');
     }
   };
 
@@ -54,7 +54,7 @@ const Form = ({ formId, expenseCategoryObj, forNewExpenseCategory = true }) => {
       }
       router.push('/expense-category');
     } catch (error) {
-      setMessage('Failed to add pet');
+      setMessage('Failed to add expense');
     }
   };
 
@@ -69,7 +69,6 @@ const Form = ({ formId, expenseCategoryObj, forNewExpenseCategory = true }) => {
     });
   };
 
-  /* Makes sure pet info is filled for pet name, owner name, species, and image url*/
   const formValidate = () => {
     let err = {};
     if (!form.name) err.name = 'Name is required';
@@ -104,7 +103,7 @@ const Form = ({ formId, expenseCategoryObj, forNewExpenseCategory = true }) => {
       const { data } = await res.json();
       setForm({ name: data.name });
     } catch (error) {
-      setMessage('Failed to update pet');
+      setMessage('Failed to update expense');
     }
   };
 

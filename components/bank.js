@@ -32,7 +32,7 @@ const Form = ({ formId, bankObj, forNewBank = true }) => {
       }
       router.push('/bank');
     } catch (error) {
-      setMessage('Failed to update pet');
+      setMessage('Failed to update bank');
     }
   };
 
@@ -55,7 +55,7 @@ const Form = ({ formId, bankObj, forNewBank = true }) => {
 
       router.push('/bank');
     } catch (error) {
-      setMessage('Failed to add pet');
+      setMessage('Failed to add bank');
     }
   };
 
@@ -70,7 +70,6 @@ const Form = ({ formId, bankObj, forNewBank = true }) => {
     });
   };
 
-  /* Makes sure pet info is filled for pet name, owner name, species, and image url*/
   const formValidate = () => {
     let err = {};
     if (!form.name) err.name = 'Name is required';
@@ -105,7 +104,7 @@ const Form = ({ formId, bankObj, forNewBank = true }) => {
       const { data } = await res.json();
       setForm({ name: data.name });
     } catch (error) {
-      setMessage('Failed to update pet');
+      setMessage('Failed to update bank');
     }
   };
 

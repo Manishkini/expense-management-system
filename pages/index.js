@@ -143,7 +143,6 @@ const Index = ({ expenses, totalExpenseOfTheMonth }) => {
   );
 };
 
-/* Retrieves pet(s) data from mongodb database */
 export async function getServerSideProps() {
   await dbConnect();
   let expenses = await Expense.find({}).populate([

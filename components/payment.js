@@ -32,7 +32,7 @@ const Form = ({ formId, paymentGatewayObj, forNewPaymentGateway = true }) => {
       }
       router.push('/payment-gateway');
     } catch (error) {
-      setMessage('Failed to update pet');
+      setMessage('Failed to update payment gateway');
     }
   };
 
@@ -55,11 +55,10 @@ const Form = ({ formId, paymentGatewayObj, forNewPaymentGateway = true }) => {
 
       router.push('/payment-gateway');
     } catch (error) {
-      setMessage('Failed to add pet');
+      setMessage('Failed to add payment gateway');
     }
   };
 
-  /* Makes sure pet info is filled for pet name, owner name, species, and image url*/
   const formValidate = () => {
     let err = {};
     if (!form.name) err.name = 'Name is required';
@@ -94,7 +93,7 @@ const Form = ({ formId, paymentGatewayObj, forNewPaymentGateway = true }) => {
       const { data } = await res.json();
       setForm({ name: data.name });
     } catch (error) {
-      setMessage('Failed to update pet');
+      setMessage('Failed to update payment gateway');
     }
   };
 
