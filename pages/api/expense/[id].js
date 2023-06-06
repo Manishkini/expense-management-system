@@ -4,7 +4,6 @@ import Expense from '../../../models/Expense';
 export default async function handler(req, res) {
   const { method, query } = req;
   await dbConnect();
-  console.log('handler query.id', query.id);
   switch (method) {
     case 'GET':
       try {
@@ -18,7 +17,6 @@ export default async function handler(req, res) {
       break;
     case 'DELETE':
       try {
-        console.log('query.id', query.id);
         const expense = await Expense.deleteOne({ _id: query.id });
         res.status(200).json({ success: true, data: expense });
       } catch (error) {

@@ -11,7 +11,30 @@ const Index = ({ expenses, totalExpenseOfTheMonth }) => {
   const router = useRouter();
   const [id, setID] = useState(undefined);
   const [isOpen, setIsOpen] = useState(false);
+  const [totalExpense, setTotalExpense] = useState(totalExpenseOfTheMonth);
   const [expenseList, setExpenseList] = useState([]);
+
+  const understoodData = (data) => {
+    let totalExpenseOfTheMonth = 0;
+    data = data.map((expense) => {
+      expense = JSON.parse(JSON.stringify(expense));
+      const tempExpense = {
+        id: expense._id,
+        date: expense.date,
+        expense_type: expense.expense_type.name,
+        bank: expense.bank.name,
+        payment_gateway: expense.payment_gateway.name,
+        debit: expense.isDebited ? expense.amount : '-',
+        credit: !expense.isDebited ? expense.amount : '-',
+      };
+      totalExpenseOfTheMonth = expense.isDebited
+        ? totalExpenseOfTheMonth + expense.amount
+        : totalExpenseOfTheMonth - expense.amount;
+      return tempExpense;
+    });
+    setExpenseList(data);
+    setTotalExpense(totalExpenseOfTheMonth);
+  };
 
   const deleteRecord = async () => {
     try {
@@ -34,6 +57,29 @@ const Index = ({ expenses, totalExpenseOfTheMonth }) => {
     }
   };
 
+  const search = async (search) => {
+    console.log('search', search);
+    try {
+      const res = await fetch(`/api/search/${search}`, {
+        method: 'GET',
+        headers: {
+          Accept: contentType,
+          'Content-Type': contentType,
+        },
+      });
+
+      // Throw error with status code in case Fetch API req failed
+      if (!res.ok) {
+        throw new Error(res.status);
+      }
+
+      const { data } = await res.json();
+      understoodData(data);
+    } catch (error) {
+      console.log('Failed to add bank', error);
+    }
+  };
+
   useEffect(() => {
     if (expenses && expenses.length) {
       setExpenseList(expenses);
@@ -50,6 +96,7 @@ const Index = ({ expenses, totalExpenseOfTheMonth }) => {
               type="search"
               name="search"
               placeholder="Search anything"
+              onChange={(e) => search(e.target.value)}
             />
           </div>
         </div>
@@ -90,7 +137,7 @@ const Index = ({ expenses, totalExpenseOfTheMonth }) => {
               <th className="w-1/12 border border-slate-600">
                 Credit {` \u20B9`}
               </th>
-              <th className="w-2/12 border border-slate-600" colspan="2"></th>
+              <th className="w-2/12 border border-slate-600" colSpan="2"></th>
             </tr>
           </thead>
           <tbody>
@@ -128,7 +175,7 @@ const Index = ({ expenses, totalExpenseOfTheMonth }) => {
             ))}
           </tbody>
           <caption className="caption-bottom  text-center">
-            Total Expense: {totalExpenseOfTheMonth}
+            Total Expense: {totalExpense}
             {' \u20B9'}
           </caption>
         </table>
@@ -145,11 +192,9 @@ const Index = ({ expenses, totalExpenseOfTheMonth }) => {
 
 export async function getServerSideProps() {
   await dbConnect();
-  let expenses = await Expense.find({}).populate([
-    'expense_type',
-    'bank',
-    'payment_gateway',
-  ]);
+  let expenses = await Expense.find({})
+    .populate(['expense_type', 'bank', 'payment_gateway'])
+    .sort({ date: -1 });
   let totalExpenseOfTheMonth = 0;
   expenses = expenses.map((expense) => {
     expense = JSON.parse(JSON.stringify(expense));
@@ -168,7 +213,6 @@ export async function getServerSideProps() {
     return tempExpense;
   });
   return { props: { expenses, totalExpenseOfTheMonth } };
-  // return { props: { expenses: [] } };
 }
 
 export default Index;

@@ -46,7 +46,7 @@ const PaymentGatewayList = ({ banks }) => {
           <thead className="bg-slate-500 h-16">
             <tr>
               <th className="w-2/3 border border-slate-600">Name</th>
-              <th className="w-1/3 border border-slate-600" colspan="2">
+              <th className="w-1/3 border border-slate-600" colSpan="2">
                 <button className="add-buttons">
                   <Link href="/bank/new">Add Bank</Link>
                 </button>
